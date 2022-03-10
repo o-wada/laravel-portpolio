@@ -152,6 +152,7 @@ class MyPageController extends Controller
         ->join('records', 'records.user_id','=','users.id')
         ->join('profiles', 'profiles.user_id','=','users.id')
         ->select('records.*','users.*','profiles.*','records.id')
+        ->where('records.user_id' ,'=', \Auth::user()->id )
         ->whereNull('records.deleted_at')
         ->orderBy('records.updated_at' ,'DESC')
         ->get();

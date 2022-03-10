@@ -16,6 +16,7 @@ class CreateRecordsTable extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->unsignedBigInteger('id' , true);
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('profile_id');          
             $table->string('date');
             $table->string('weight');
             $table->string('intake');

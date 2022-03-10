@@ -31,13 +31,7 @@
                             <p><small>{{ $record->updated_at }}</small></p> 
                         @endif
                     </div>
-                        <!-- 自分の投稿のみ編集ボタンが出力されるようにする -->
                     <div class="col-md-1">
-                        @if( $record->user_id == \Auth::user()->id )
-                        <a href="/edit/{{ $record->id }}" class="text-decoration-none text-black">
-                        <i class="fa fa-bars" aria-hidden="true"></i>
-                        </a>
-                        @endif
                     </div>
 
                 </div>
