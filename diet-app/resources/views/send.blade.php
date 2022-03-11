@@ -41,8 +41,18 @@
                 @csrf
                 <input type="hidden" name="accept_user" value="{{ $send['id'] }}">
                 <input type="hidden" name="" value="{{ \Auth::user()->id }}">
-                <textarea name="comment" cols="30" rows="5" class="form-control"></textarea>
-                <input type="submit" value="送信" name="submit" class="my-2 form-control w-25 float-end">
+                <textarea name="comment" cols="30" rows="5" class="form-control mb-3"></textarea>
+                
+                <div class="row">
+                    <div class="col-md ">
+                        <a href="/message" class="my-2 form-control text-center text-decoration-none px-5">退出</a>
+                    </div>
+                    <div class="col-md"></div>
+                    <div class="col-md">
+                        <input type="submit" value="送信" name="submit" class="my-2 form-control ">
+                    </div>
+                </div>
+                
             </form>
 
         </div>

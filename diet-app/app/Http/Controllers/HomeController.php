@@ -40,12 +40,12 @@ class HomeController extends Controller
         $records = \DB::table('users')
                     ->join('records', 'records.user_id','=','users.id')
                     ->join('profiles', 'profiles.user_id','=','users.id')
-                    ->select('records.*','users.*','profiles.*','records.id')
+                    ->select('records.*','users.*','profiles.*','records.id','records.updated_at')
                     ->whereNull('records.deleted_at')
-                    ->orderBy('records.updated_at' ,'DESC')
+                    ->orderBy('records.updated_at','DESC')
                     ->get();
 
-            //        dd($records);
+              //     dd($records);
 
         // 投稿に対するリプをカウント
         $counts = \DB::table('records')
@@ -153,7 +153,7 @@ class HomeController extends Controller
         //dd($posts);
         Record::where('id', $posts['record_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
        
-        return redirect( route('home'));
+        return redirect( route('index'));
     }
 
     //ここから、投稿に対するリプに伴うもの

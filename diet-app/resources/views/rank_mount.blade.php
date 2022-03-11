@@ -4,10 +4,10 @@
 
 <div class="container-fluid">
 
-    <div class="mx-auto w-50 ">
+    <div class="mx-auto w-50 my-3">
 
         <!-- リンク -->
-        <div class="row mt-3 mx-0 bg-warning bg-opacity-10 ">
+        <div class="row mx-0 bg-warning bg-opacity-10 ">
             <div class="col-md text-center border py-3"> <a href="/rank" class="text-black">今日</a> </div>
             <div class="col-md text-center border py-3"> <a href="/rank_mount" class="text-black">累計</a> </div>
             <div class="col-md text-center border py-3"> <a href="/rank_average" class="text-black">平均</a> </div>

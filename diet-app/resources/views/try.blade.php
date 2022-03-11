@@ -2,23 +2,25 @@
 
 @section('content')
 
-<div class="container-fluid row">
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<p>画像を保存する</p>
-<form action="{{ route('tom') }}" method="post" enctype="multipart/form-data">
-    @csrf
-<input type="file" name="image" >
-<input type="submit" value="送信">
-</form>
+        <title>Laravel</title>
 
-<p>画像を表示する</p>
-@foreach($abc as $a)
-<img src="/pictures/{{ $a->image }}" class="w-25" alt="">
-@endforeach
-</div>
+    </head>
+    <body>
+       
+        <div id="app">
+          <example-component></example-component>
+        </div>
 
-
-
+    <script src="{{ mix('/js/app.js') }}"></script>
+    </body>
+</html>
 
 
 

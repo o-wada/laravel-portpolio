@@ -50,11 +50,11 @@
 
                                         <div class="col-md my-auto ">
                                         @if($record->user_id == \Auth::user()->id) 
-                                            <img src="/images/{{ $record->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
+                                            <img src="/images/{{ $record->picture }}" alt="no" width="50px" height="50px" class="rounded rounded-circle float-start">
                                             <h4> <a href="/my_page" class="px-4">{{ $record->name }}</a>  </h4>
                                             <p><small class="px-4">{{ $record->updated_at }}</small></p> 
                                         @else
-                                            <img src="/images/{{ $record->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
+                                            <img src="/images/{{ $record->picture }}" alt="no" width="50px" height="50px" class="rounded rounded-circle float-start">
                                             <h4 > <a href="/user_page/{{ $record->profile_id }}" class="px-4">{{ $record->name }}</a>  </h4>
                                             <p><small class="px-4">{{ $record->updated_at }}</small></p> 
                                         @endif

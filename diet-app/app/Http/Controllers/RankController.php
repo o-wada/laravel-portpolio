@@ -37,6 +37,7 @@ class RankController extends Controller
         $sum =\DB::table('users')
                ->join('records', 'records.user_id','=','users.id') 
                ->where('date','=', $dt )
+               ->whereNull('records.deleted_at')
                ->orderBy('sum', 'ASC')
                ->get();
 
