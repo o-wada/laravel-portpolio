@@ -69,6 +69,21 @@ class HomeController extends Controller
         $kal = new Profile;
         $cal = $kal->CalKg(); 
 
+        //日数を計算
+        $count_date = User::where('id','=', \Auth::id() )->value('created_at')->diffInDays( Carbon::now() );
+
+        //平均カロリー収支を計算
+        $average = \DB::table('users')
+                    ->join('records', 'records.user_id','=','users.id')
+                    ->where('user_id','=',\Auth::id())
+                    ->select('user_id','name')
+                    ->selectRaw('AVG(sum) as sum')
+                    ->groupBy('user_id')
+                    ->get();
+
+        $finishes = new Profile;
+        $finish   = $finishes->finish();
+
         // $likes = new Record;
         // $like = $likes->is_liked_by_auth_user();
     //     $like_records = Record::find($id);
@@ -79,7 +94,7 @@ class HomeController extends Controller
     //    dd($like_exists);
 
 
-       return view('index' , compact('records','counts','reply','target','balance','cal',));
+       return view('index' , compact('records','counts','reply','target','balance','cal','count_date','average','finish'));
 
     }
 
@@ -341,7 +356,7 @@ class HomeController extends Controller
     return view('user_page', compact('profiles','user'));
         
 
-    }
+    }    
  
 
 }

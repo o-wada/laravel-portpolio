@@ -125,24 +125,24 @@
                     <!-- 身長 -->
                     <div class="form-group col-md-4 mb-3">
                         <label>身長(cm) <span class="required text-danger"> <br> ※必須(1件のみ選択可)</span></label>
-                        <br><input type="checkbox" name="tall" id="140-144" value="140">
-                            <label for="140-144">140-144</label>
-                        <br><input type="checkbox" name="tall" id="145-149" value="145">
-                            <label for="145-149">145-149</label>
-                        <br><input type="checkbox" name="tall" id="150-154" value="150">
-                            <label for="150-154">150-154</label>
-                        <br><input type="checkbox" name="tall" id="155-159" value="155">
-                            <label for="155-159">155-159</label>
-                        <br><input type="checkbox" name="tall" id="160-164" value="160">
-                            <label for="160-164">160-164</label>
-                        <br><input type="checkbox" name="tall" id="165-169" value="165">
-                            <label for="165-169">165-169</label>
-                        <br><input type="checkbox" name="tall" id="170-174" value="170">
-                            <label for="170-174">170-174</label>
-                        <br><input type="checkbox" name="tall" id="175-179" value="175">
-                            <label for="175-179">175-179</label>
-                        <br><input type="checkbox" name="tall" id="180-184" value="180">
-                            <label for="180-184">180-184</label>
+                        <br><input type="checkbox" name="tall" id="120-129" value="120">
+                            <label for="120-129">120-129</label>
+                        <br><input type="checkbox" name="tall" id="130-139" value="130">
+                            <label for="130-139">130-139</label>
+                        <br><input type="checkbox" name="tall" id="140-149" value="140">
+                            <label for="140-149">140-149</label>
+                        <br><input type="checkbox" name="tall" id="150-159" value="150">
+                            <label for="150-159">150-159</label>
+                        <br><input type="checkbox" name="tall" id="160-169" value="160">
+                            <label for="160-169">160-169</label>
+                        <br><input type="checkbox" name="tall" id="170-179" value="170">
+                            <label for="170-179">170-179</label>
+                        <br><input type="checkbox" name="tall" id="180-189" value="180">
+                            <label for="180-189">180-189</label>
+                        <br><input type="checkbox" name="tall" id="190-199" value="190">
+                            <label for="190-199">190-199</label>
+                        <br><input type="checkbox" name="tall" id="200-209" value="200">
+                            <label for="200-209">200-209</label>
 
                     </div>
 

@@ -41,7 +41,7 @@ class SearchController extends Controller
         // ↓チェックした項目が存在するか確認
         $element_exists = Profile::whereBetween('weight', [ $posts['weight'],( $posts['weight'] +9 ) ] )
                                  ->whereBetween('tall',   [ $posts['tall']  ,( $posts['tall']   +4 ) ])
-                                 ->whereBetween('age',    [ $posts['age']   ,( $posts['age']    +4 ) ])
+                                 ->whereBetween('age',    [ $posts['age']   ,( $posts['age']    +9 ) ])
                                  ->where([ ['gender','=',$posts['gender'] ],['way','=',$posts['way'] ],['shape','=',$posts['shape']] ])
                                  ->exists();
                                  
@@ -53,7 +53,7 @@ class SearchController extends Controller
                                ->join('profiles', 'user_id','=','users.id')
                                ->whereBetween('weight', [ $posts['weight'],( $posts['weight'] +9 ) ] )
                                ->whereBetween('tall',   [ $posts['tall']  ,( $posts['tall']   +4 ) ])
-                               ->whereBetween('age',    [ $posts['age']   ,( $posts['age']    +4 ) ])
+                               ->whereBetween('age',    [ $posts['age']   ,( $posts['age']    +9 ) ])
                                ->where([ ['gender','=',$posts['gender'] ],['way','=',$posts['way'] ],['shape','=',$posts['shape']] ])
                                ->select('users.*','profiles.*','profiles.id')
                                ->get();

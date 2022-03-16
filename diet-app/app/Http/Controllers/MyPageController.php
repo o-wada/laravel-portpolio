@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\Record;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
@@ -41,12 +42,34 @@ class MyPageController extends Controller
                   ->where('user_id', '=', \Auth::id())
                   ->count();
 
-           //       dd($first);
+        // 消費カロリーの見える化
+        $target_kcal = new Profile;
+        $target = $target_kcal->CalKcal();
 
-       //    phpinfo();
+        // 目標消費カロリーの残高計算
+        $balances = new Profile;
+        $balance = $balances->amount();
+
+        $kal = new Profile;
+        $cal = $kal->CalKg(); 
+
+        //日数を計算
+        $count_date = User::where('id','=', \Auth::id() )->value('created_at')->diffInDays( Carbon::now() );
+
+        //平均カロリー収支を計算
+        $average = \DB::table('users')
+                ->join('records', 'records.user_id','=','users.id')
+                ->where('user_id','=',\Auth::id())
+                ->select('user_id','name')
+                ->selectRaw('AVG(sum) as sum')
+                ->groupBy('user_id')
+                ->get();        
         
+        $finishes = new Profile;
+        $finish   = $finishes->finish();
 
-        return view('my_page', compact('profiles','first'));               
+
+        return view('my_page', compact('profiles','first','target','balance','cal','count_date','average','finish'));               
     }
 
     public function store(Request $request){
@@ -145,27 +168,25 @@ class MyPageController extends Controller
     }
 
 
-    // my_page post
+    // my_page 投稿一覧
     public function post(){
 
         $records = \DB::table('users')
-        ->join('records', 'records.user_id','=','users.id')
-        ->join('profiles', 'profiles.user_id','=','users.id')
-        ->select('records.*','users.*','profiles.*','records.id')
-        ->where('records.user_id' ,'=', \Auth::user()->id )
-        ->whereNull('records.deleted_at')
-        ->orderBy('records.updated_at' ,'DESC')
-        ->get();
+                    ->join('records', 'records.user_id','=','users.id')
+                    ->join('profiles', 'profiles.user_id','=','users.id')
+                    ->select('records.*','users.*','profiles.*','records.id')
+                    ->where('records.user_id' ,'=', \Auth::user()->id )
+                    ->whereNull('records.deleted_at')
+                    ->orderBy('records.updated_at' ,'DESC')
+                    ->get();
 
 
         // 投稿に対するリプをカウント
         $counts = \DB::table('records')
-            ->join('replies', 'replies.host_id','=','records.id')
-            ->whereNull('replies.deleted_at')
-            ->groupBy('replies.host_id')
-            ->get(['replies.host_id',\DB::raw('count(replies.host_id) as reply')]);
-
-
+                    ->join('replies', 'replies.host_id','=','records.id')
+                    ->whereNull('replies.deleted_at')
+                    ->groupBy('replies.host_id')
+                    ->get(['replies.host_id',\DB::raw('count(replies.host_id) as reply')]);
 
         return view('post' , compact('records', 'counts'));
     }

@@ -158,6 +158,69 @@ class Profile extends Model
         return($cal);
     }
 
+    //目標達成までの残り日数を数える
+    public function finish(){
+
+                //calKcalと同じ内容
+                // 脂肪1キロ燃やすのに必要な消費カロリー
+                $kcal = 7200 ;
+
+                // SQLからmy_pageの目標体重と初期の体重を取得する
+                $targets = Profile::select('profiles.*')
+                        ->where('user_id','=',\Auth::user()->id )
+                        ->get();
+
+                // 目標体重と初期体重のギャップを計算する
+                foreach($targets as $target)
+                // 差額 = 元の体重 - 目標の体重
+                $sub = $target['weight'] - $target['target'];
+                // 消費するべき合計カロリー = 差額 かける 7200kcal
+                $sub_kcal = $sub * $kcal ;            
+
+                //これまでの合計消費カロリー（カロリー収支）を取得
+                $amounts = \DB::table('users')
+                        ->join('records', 'records.user_id','=','users.id')
+                        ->where('user_id','=',\Auth::user()->id )
+                        ->select('user_id','name')
+                        ->selectRaw('SUM(sum) as sum')
+                        ->groupBy('user_id')
+                        ->get();
+
+                //カロリー収支を計算
+                foreach($amounts as $amount)
+
+                // これまでの消費カロリーの合計
+                $amount_kcal = $amount->sum;
+
+                // 目標までの消費カロリー = 消費するべき合計カロリー - これまでの消費カロリーの合計
+                $balance = $sub_kcal + $amount_kcal ;
+
+                $average = \DB::table('users')
+                            ->join('records', 'records.user_id','=','users.id')
+                            ->where('records.user_id','=',\Auth::id() )
+                            ->select('user_id','name')
+                            ->selectRaw('AVG(sum) as sum')
+                            ->groupBy('user_id')
+                            ->get();
+
+                foreach($average as $a){
+
+                    $ave = $a->sum;
+                }
+
+                //日数の計算
+
+                $finish = - $balance / $ave ;
+
+                return(ceil($finish));
+
+
+            //残りの消費するべきカロリー割る平均を
+
+
+
+    }
+
 
 
     

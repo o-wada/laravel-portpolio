@@ -78,9 +78,9 @@
                 <div class="bg-primary bg-opacity-10 row pt-3 mx-0 px-0">
                     <div class="icon col-md">
                         @if($rep->user_id == \Auth::user()->id) 
-                            <img src="/images/{{ $record->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
-                            <h4> <a href="/my_page" class="px-4">{{ $record->name }}</a>  </h4>
-                            <p><small class="px-4">{{ $record->updated_at }}</small></p> 
+                            <img src="/images/{{ $rep->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
+                            <h4> <a href="/my_page" class="px-4">{{ $rep->name }}</a>  </h4>
+                            <p><small class="px-4">{{ $rep->updated_at }}</small></p> 
                         @else
                             <img src="/images/{{ $rep->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
                             <h4 > <a href="/user_page/{{ $rep->profile_id }}" class="px-4">{{ $rep->name }}</a>  </h4>
@@ -119,7 +119,7 @@
                 <div class="bg-info bg-opacity-10 row pt-3 mx-0 px-0">
                     <div class="icon col-md">
                         @if($comment->user_id == \Auth::user()->id) 
-                            <img src="/images/{{ $record->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
+                            <img src="/images/{{ $comment->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
                             <h4> <a href="/my_page" class="px-4">{{ $comment->name }}</a>  </h4>
                             <p><small class="px-4">{{ $comment->updated_at }}</small></p> 
                         @else

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="card w-75 mx-auto p-3">
+<div class="card w-75 mx-auto p-3 my-4">
     <!-- 削除機能 -->
     <div class="mb-3">
         <form action="{{ route('delete') }}" method="post" >

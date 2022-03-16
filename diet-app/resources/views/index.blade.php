@@ -5,25 +5,11 @@
 <div class="container-fluid ">
 
     <div class="mx-auto ">
-        <!-- カロリー表示 -->
-        @if((\Route::currentRouteName() === 'index') )
-            <div class="card mx-auto w-50 text-center">
-                <p>{{Auth::user()->name}}さんの 減量目標を達成するには、合計{{ $target }} kcalのカロリー消費が必要です。 </p>
-                <div class="row">
-                    <div class="col-md ">
-                        <p>1kg 減量まであと - {{$cal}} kcalです。</p>
-                    </div>
-                    <div class="col-md">
-                        <p>目標まであと  - {{ $balance }} kcalです。</p>      
-                    </div>
-                </div>
-            </div>
-        @endif
 
          @if((\Route::currentRouteName() === 'index') )
-         <div class="w-50 mx-auto">
+         <div class="w-75 mx-auto row">
          @endif
-
+            <!-- もどるボタン -->
              @if(!(\Route::currentRouteName() === 'index') )
                 <div class="w-75 mx-auto" >
 
@@ -37,14 +23,46 @@
 
             <div class="row w-75 mx-auto">
              @endif            
-                    @foreach($records as $record)
+                   @if((\Route::currentRouteName() === 'index') )
+                   <div class="col-md-4">
+                        <!-- 経過日数 -->
+                        <div class="my-4 card mx-3 text-center">
+                            <h4 class="pt-2">開始から {{$count_date}} 日目</h4>
+                        </div>
+                        <!-- カロリー表示 -->
+                        <div class="card mx-3 my-4">
+                            <p class="px-2 pt-3">{{Auth::user()->name}}さんの</p>
+                            <p class="px-2">減量目標を達成するには、合計{{ $target }} kcalのカロリー消費が必要です。</p>
+                        </div>
+                        <div class="card mx-3 my-4">
+                            <p class="px-2 pt-3">目標まであと  - {{ $balance }} kcalです。</p>      
+                            <p class="px-2">1kg 減量まであと - {{$cal}} kcalです。</p>
+                        </div>
+                        <div class="card mx-3 my-4">
+                            @foreach($average as $a)
+                            <p class="px-2 pt-3">1日の平均カロリー収支は {{ $a->sum }}kcalです。</p>
+                            @endforeach
+                            <p class="px-2 ">目標達成まで</p>
+                            <h3 class="px-2 ms-5">あと、{{$finish}} 日！</h3>
+                        </div>
+                        <div class="card mx-3 my-4">
+                            チャート
+                        </div>
+                   </div>
+
+                    <!-- 消さない -->
+                    <div class="col-md-8">
+
+                        @endif
+
+                        @foreach($records as $record)
 
                             <!-- 画面を2分割にする左側 -->
                             @if(!(\Route::currentRouteName() === 'index') )
                             <div class="col-md">
                             @endif
 
-                                <div class="card my-4 ">
+                                <div class="card my-4 mx-auto">
                                     <!-- 名前と日付 -->
                                     <div class="bg-warning bg-opacity-10 row pt-3 mx-0 px-0">
 
@@ -240,8 +258,9 @@
                             @endif
 
                         
-
-                    @endforeach
+                    
+                        @endforeach
+                    </div>
 
              @if(!(\Route::currentRouteName() === 'index') )
             </div>
