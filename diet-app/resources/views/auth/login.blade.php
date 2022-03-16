@@ -47,21 +47,31 @@
                                     <label class="form-check-label" for="remember">
                                         {{ __('Remember Me') }}
                                     </label>
+
+                                    @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        {{ __('パスワード再発行') }}
+                                    </a>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
+                        <div class="row mb-0 ">
+                            <div class="col-md-6 offset-md-4">
+
+                                <button type="submit" class="btn btn-primary mx-3">
+                                    {{ __(' ログイン ') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
+                                <button type="submit" class="btn btn-dark opacity-75 mx-3">
+
+                                    <a href="" class="text-white">ゲストログイン</a>
+                                    
+                                </button>
+
+
                             </div>
                         </div>
                     </form>
