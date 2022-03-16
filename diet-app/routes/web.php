@@ -7,6 +7,8 @@ use App\Http\Controllers\RankController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TomController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\SearchController;
 
 use App\Models\Profile;
 use Facade\FlareClient\Time\Time;
@@ -78,8 +80,26 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::post('/dis_request', [FriendController::class ,'dis_request'])->name('dis_request');
     //Route::get('/user_page/{id}',[FriendController::class ,'select'])->name('select');
 
-    Route::get('/try', [TomController::class,'index'] )->name('tomato');
+    Route::get('/try.show', [TomController::class,'show'] )->name('tomato');
 
     Route::post('/try/store', [TomController::class,'store'])->name('tom');
+    Route::get('/app', function(){ return view('app');} );
+
+    Route::get('/reply/like/{id}', [LikeController::class,'like'])->name('like');
+    Route::get('/reply/unlike/{id}', [LikeController::class,'unlike'])->name('unlike');
+
+
+    //検索ページ
+    Route::group(['prefix' => 'search', 'as' => 'search.'], function(){
+
+        //    Route::get('/', function(){ return view('search'); }  )->name('home');
+           Route::get('/', [SearchController::class, 'index']  )->name('index');
+        //    Route::post('/store', [SearchController::class, 'store']  )->name('store');
+        //    Route::get('/display', function(){ return view('search'); }  );
+           Route::post('/user', [SearchController::class, 'search']  )->name('user');
+       
+       
+       });
+       
 
 });

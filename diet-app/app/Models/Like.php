@@ -4,21 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Record;
+use App\Models\User;
+
 
 class Like extends Model
 {
-    //配列内の要素を書き込み可能にする
-    protected $fillable = ['reply_id', 'user_id'];
+    use HasFactory;
 
-    public function reply(){
-       
-        return $this->belongsTo(Reply::class);
-    }
+    // 配列内の要素を書き込み可能にする
+  protected $fillable = ['record_id','user_id'];
 
-    public function user(){
+  public function record()
+  {
+    return $this->belongsTo(Record::class);
+  }
 
-        return $this->belongsTo(User::class);
-    }
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
 
-    
 }

@@ -31,73 +31,39 @@ class LikeController extends Controller
      * 
      */
 
+         // 引数のIDに紐づくレコードにLIKEする
 
-    public function like($id){
-
-        /**
-        * 引数のIDに紐づくリプライにLIKEする
-        *
-        * @param $id リプライID
-        * @return \Illuminate\Http\RedirectResponse
-        */
-
+    public function like($id)
+    {
         Like::create([
-            'reply_id' => $id,
-            'user_id' => \Auth::user()->id,
+        'record_id' => $id,
+        'user_id' => \Auth::user()->id,
         ]);
 
-        session()->flash('succsess','You Liked the Reply.');
+        $like_exists = Like::where('user_id','=',\Auth::id() )
+                        ->where('record_id','=', $id )
+                        ->exists();
 
-        return redirect()->back();
 
+        return redirect()->route('index')->with(compact('like_exists'));
     }
 
-    /**
-     * 引数のIDに紐づくリプライにUNLIKEする
-     *
-     * @param $id リプライID
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    // 引数のIDに紐づくリプライにUNLIKEする
 
-    public function Unlike($id){
+    public function unlike($id)
+    {
+        $like = Like::where('record_id', $id)->where('user_id', \Auth::user()->id)->first();
+        $like->delete();
 
-        $like = Like::where('reply_id', $id)->where('user_id',\Auth::id())->first();
-        // $like->delete();
+        $like_exists = Like::where('user_id','=',\Auth::id() )
+                      ->where('record_id','=', $id )
+                      ->exists();
 
-        session()->flash('OK');
-        
-        return redirect()->back();
+        return redirect()->route('index')->with(compact('like_exists'));
 
-    }
-
-
-    public function store(Request $request){
-
-    }
-
-    public function edit($id){
-    }
-
-    public function update(Request $request){
-    }
-
-    public function delete(Request $request){
     }
 
 
 
-
-   // カウント {{ $reply->likes->count() }}
-//    @if(!($reply))
-//    <a href="{{ route('rep_unlike', ['id']) }}" class="btn btn-dark btn-sm text-decoration-none px-2">
-//        <i class="fa fa-heart" aria-hidden="true"></i>
-
-//    </a>
-// @else
-//    <a href="{{ route('rep_like', ['id']) }}" class="btn btn-danger btn-sm  text-decoration-none px-2">
-//        <i class="fa fa-heart" aria-hidden="true"></i>
-//        <span class="badge"></span>
-//    </a>
-// @endif
 
 }

@@ -13,6 +13,7 @@ use App\Models\Comment;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -68,10 +69,17 @@ class HomeController extends Controller
         $kal = new Profile;
         $cal = $kal->CalKg(); 
 
-    //    dd($cal);
+        // $likes = new Record;
+        // $like = $likes->is_liked_by_auth_user();
+    //     $like_records = Record::find($id);
+    //    $like_exists = Like::where('user_id','=',\Auth::id() )
+    //                   ->where('record_id','=', $like_records['id'] )
+    //                   ->get();
+                      
+    //    dd($like_exists);
 
 
-       return view('index' , compact('records','counts','reply','target','balance','cal' ));
+       return view('index' , compact('records','counts','reply','target','balance','cal',));
 
     }
 
@@ -100,7 +108,7 @@ class HomeController extends Controller
                    ->whereNull('deleted_at')
                    ->orderBy('updated_at', 'DESC')
                    ->get();
-                  // dd($records);
+          //         dd($records);
 
         return view('record', compact('records','dt','counts','changes'));
     }
@@ -320,27 +328,20 @@ class HomeController extends Controller
             ->get();
       //   dd($records);
 
-    $select = \DB::table('users')
-               ->join('reqs', 'users.id','=','reqs.user_id')
-               ->where('reqs.user_id','=',\Auth::user()->id )
-    //           ->where('permission_user','=', $profile['user_id'])
-               ->get();
+    // $select = \DB::table('users')
+    //            ->join('reqs', 'users.id','=','reqs.user_id')
+    //            ->where('reqs.user_id','=',\Auth::user()->id )
+    // //           ->where('permission_user','=', $profile['user_id'])
+    //            ->get();
 
         //      dd($profile);
 
 
 
-    return view('user_page', compact('profiles','select','user'));
+    return view('user_page', compact('profiles','user'));
         
 
     }
-
-
-
-
-
-
-
-
+ 
 
 }

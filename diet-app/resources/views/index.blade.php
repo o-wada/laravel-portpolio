@@ -49,6 +49,7 @@
                                     <div class="bg-warning bg-opacity-10 row pt-3 mx-0 px-0">
 
                                         <div class="col-md my-auto ">
+
                                         @if($record->user_id == \Auth::user()->id) 
                                             <img src="/images/{{ $record->picture }}" alt="no" width="50px" height="50px" class="rounded rounded-circle float-start">
                                             <h4> <a href="/my_page" class="px-4">{{ $record->name }}</a>  </h4>
@@ -92,23 +93,35 @@
                                     <!-- Likeボタンとリプライボタン /id -->
                                     <div class="bg-warning bg-opacity-10 ">
                                         <div class="m-3 row">
-                                            <div class="col-md"></div>
-                                            <div class="col-md-2">
-                                            <i class="fa fa-heart" aria-hidden="true"></i>
-                                            </div>
                                             @if(\Route::currentRouteName() === 'index')
-                                            <div class="col-md-2 ">
-                                                <a href="/index/{{ $record->id }}" class="btn btn-dark btn-sm text-decoration-none">
-                                                    <i class="fa fa-comment" aria-hidden="true"></i>
-                                                        <span> 
-                                                        @foreach($counts as $count)
-                                                            @if($count->host_id == $record->id)
-                                                            {{ $count->reply }} 
-                                                            @endif
-                                                        @endforeach
-                                                        </span>
-                                                </a>
-                                            </div>
+                                                <div class="col-md"></div>
+                                                <!-- like 判定がうまくいかない -->
+                                                <div class="col-md-2">
+                                                    <!--              
+                                                            <a href="{{ route('unlike', ['id' => $record->id]) }}" class="btn btn-danger opacity-75 btn-sm" name='post'>
+                                                            <i class="fa fa-heart" aria-hidden="true"></i>    
+                                                            <span class="badge">済</span></a>
+                                                        
+                                                            <a href="{{ route('like', ['id' => $record->id]) }}" class="btn btn-secondary btn-sm"  name='post'>
+                                                            <i class="fa fa-heart" aria-hidden="true"></i>
+                                                            <span class="badge">未iij</span></a>
+                                                      -->         
+
+                                                </div>
+
+                                                <!-- リプライ -->
+                                                <div class="col-md-2 ">
+                                                    <a href="/index/{{ $record->id }}" class="btn btn-dark btn-sm text-decoration-none">
+                                                        <i class="fa fa-comment" aria-hidden="true"></i>
+                                                            <span> 
+                                                            @foreach($counts as $count)
+                                                                @if($count->host_id == $record->id)
+                                                                {{ $count->reply }} 
+                                                                @endif
+                                                            @endforeach
+                                                            </span>
+                                                    </a>
+                                                </div>
                                             @endif
                                         </div> 
                                     </div>

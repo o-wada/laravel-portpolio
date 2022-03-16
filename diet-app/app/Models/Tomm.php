@@ -4,16 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Tom extends Model
+class Tomms extends Model
 {
     use HasFactory;
-
-    protected $guarded = ['id'];
-
-    public static $rules = [
-        'image' => 'image|file'
-    ];
 
     public function user(): BelongsTo
     {

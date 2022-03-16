@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Record;
-use App\Models\Tom;
+use App\Models\Tomm;
+use App\Models\Try;
 use App\Models\Profile;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
+use App\Http\Requests\ArticleRequest;
 
 class TomController extends Controller
 {
@@ -30,20 +32,11 @@ class TomController extends Controller
      */
 
 
-    public function index(){
-
-        $abc = Tom::get();
-
-     //   dd($abc);
-
-        return view('try', compact('abc'));
-
-    }
 
     public function store(Request $request){
 
 
-        $this->validate($request, Tom::$rules);
+        $this->validate($request, Tomm::$rules);
 
         if ($file = $request->image ) {
             $fileName = time() . $file->getClientOriginalName();
@@ -53,7 +46,7 @@ class TomController extends Controller
             $fileName = "";
         }
 
-        $member = new Tom;
+        $member = new Tomm;
 
         $member->image = $fileName;
         $member->save();
@@ -71,6 +64,31 @@ class TomController extends Controller
     public function delete(Request $request){
     }
 
+    public function show(Tomm $article)
+    {
+        return view('try.show', ['article' => $article]);
+    }
+
+    public function like(Request $request, Tomm $article)
+    {
+        $article->likes()->detach($request->user()->id);
+        $article->likes()->attach($request->user()->id);
+
+        return [
+            'id' => $article->id,
+            'countLikes' => $article->count_likes,
+        ];
+    }
+
+    public function unlike(Request $request, Tomm $article)
+    {
+        $article->likes()->detach($request->user()->id);
+
+        return [
+            'id' => $article->id,
+            'countLikes' => $article->count_likes,
+        ];
+    }
 
 
 }

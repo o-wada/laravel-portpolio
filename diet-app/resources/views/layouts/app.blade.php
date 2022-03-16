@@ -55,7 +55,7 @@
                                     <a class="nav-link active " aria-current="page" href="{{ route('rank') }}">ランキング</a> 
                                 </li>
                                 <li class="nav-item px-3">
-                                    <a class="nav-link active" aria-current="page" href="">ユーザー検索</a>
+                                    <a class="nav-link active" aria-current="page" href="{{ route('search.index') }}">ユーザー検索</a>
                                 </li>
 
                             </ul>
