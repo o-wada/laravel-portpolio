@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -37,4 +38,22 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+
+
+        // ゲストユーザー用のユーザーIDを定数として定義
+        private const GUEST_USER_ID = 4;
+
+        // ゲストログイン処理
+        public function guestLogin()
+        {
+            // id=1 のゲストユーザー情報がDBに存在すれば、ゲストログインする
+            if (Auth::loginUsingId(self::GUEST_USER_ID)) {
+                return redirect('/index');
+            }
+
+            return redirect('/home');
+        }
+
 }
+

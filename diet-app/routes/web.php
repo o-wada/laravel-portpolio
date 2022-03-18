@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\RankController;
@@ -25,10 +26,13 @@ use Facade\FlareClient\Time\Time;
 */
 
 Route::get('/', function () { return view('welcome'); });
+Route::get('/guest', [LoginController::class, 'guestLogin'])->name('login.guest');
+
 
 Auth::routes();
 // ログインしていない場合、ログイン画面に戻す
 Route::group(['middleware' => ['auth']] , function(){ 
+
 
     Route::get('/select',  function() {return view('select');} ) ;
 
