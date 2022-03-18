@@ -40,12 +40,20 @@ class Profile extends Model
                 ->where('user_id','=',\Auth::user()->id )
                 ->get();
 
-        // 目標体重と初期体重のギャップを計算する
-        foreach($targets as $target)
-        $sub = $target['weight'] - $target['target'];
-        $target_kcal = $sub * $kcal ;
+        $profile = Profile::where('user_id','=',\Auth::id())->exists();
 
-        return($target_kcal); 
+        // 目標体重と初期体重のギャップを計算する
+        foreach($targets as $target){
+            if($profile){
+                $sub = $target['weight'] - $target['target'];
+                $target_kcal = $sub * $kcal ;
+                return($target_kcal); 
+            }else{
+                $message = 'プロフィールを登録してください。';
+                return($message);
+            }
+
+        }
  
     }
 
@@ -53,169 +61,203 @@ class Profile extends Model
     public function amount(){
 
         //calKcalと同じ内容
-                // 脂肪1キロ燃やすのに必要な消費カロリー
-                $kcal = 7200 ;
+        // 脂肪1キロ燃やすのに必要な消費カロリー
+        $kcal = 7200 ;
 
-                // SQLからmy_pageの目標体重と初期の体重を取得する
-                $targets = Profile::select('profiles.*')
-                        ->where('user_id','=',\Auth::user()->id )
-                        ->get();
-
-                // 目標体重と初期体重のギャップを計算する
-                foreach($targets as $target)
-                // 差額 = 元の体重 - 目標の体重
-                $sub = $target['weight'] - $target['target'];
-                // 消費するべき合計カロリー = 差額 かける 7200kcal
-                $sub_kcal = $sub * $kcal ;            
-
-        //これまでの合計消費カロリー（カロリー収支）を取得
-        $amounts = \DB::table('users')
-                ->join('records', 'records.user_id','=','users.id')
+        // SQLからmy_pageの目標体重と初期の体重を取得する
+        $targets = Profile::select('profiles.*')
                 ->where('user_id','=',\Auth::user()->id )
-                ->select('user_id','name')
-                ->selectRaw('SUM(sum) as sum')
-                ->groupBy('user_id')
                 ->get();
 
-         //カロリー収支を計算
-         foreach($amounts as $amount)
+        $profile = Profile::where('user_id','=',\Auth::id())->exists();
 
-         // これまでの消費カロリーの合計
-         $amount_kcal = $amount->sum;
-
-         // 目標までの消費カロリー = 消費するべき合計カロリー - これまでの消費カロリーの合計
-         $balance = $sub_kcal + $amount_kcal ;
-
-    
-        return($balance) ;
-
-    }
-
-    //1kg減量計算をする
-    public function CalKg(){
-
-                // 脂肪1キロ燃やすのに必要な消費カロリー
-                $kcal = 7200 ;
-
-                // SQLからmy_pageの目標体重と初期の体重を取得する
-                $targets = Profile::select('profiles.*')
-                            ->where('user_id','=',\Auth::user()->id )
-                            ->get();
-
+        // 目標体重と初期体重のギャップを計算する
+        foreach($targets as $target){
+            if($profile){
                 // 目標体重と初期体重のギャップを計算する
-                foreach($targets as $target)
-                // 差額 = 元の体重 - 目標の体重
-                $sub = $target['weight'] - $target['target'];
-                // 減量するカロリー = 差額 かける 7200kcal
-                $sub_kcal = $sub * $kcal ;            
-        
-
-                //これまでの合計消費カロリー（カロリー収支）を取得
-                $amounts = \DB::table('users')
-                            ->join('records', 'records.user_id','=','users.id')
-                            ->where('user_id','=',\Auth::user()->id )
-                            ->select('user_id','name')
-                            ->selectRaw('SUM(sum) as sum')
-                            ->groupBy('user_id')
-                            ->get();
-
-                //カロリー収支を計算
-                foreach($amounts as $amount)
-
-                // これまでの消費カロリーの合計
-                $amount_kcal = $amount->sum;
-                
-                // 目標までの消費カロリー = 消費するべき合計カロリー - これまでの消費カロリーの合計
-                $balance = $sub_kcal + $amount_kcal ;
-        
-        // 以下の計算で-がつくとややこしいので、符号反転させる。
-        $replace = - $amount_kcal;
-
-
-        // 次の1キロ減量までの消費カロリー        
-       if( $replace < 0 ){
-
-        //合計消費カロリーがプラスの場合（摂取カロリーが上まっている場合）
-        $cal = $kcal - $replace ;
-            
-       
-        }elseif( $replace < $kcal ){
-
-            // 合計が7200未満の時
-            $cal = $kcal - $replace ; 
-
-        }else{
-
-        // 合計が7200以上の時
-           $re_cal = $replace % $kcal;
-
-           $cal = $kcal - $re_cal;
-
-       }
-       // 合計がマイナスの時 $amount < 0
-
-
-        return($cal);
-    }
-
-    //目標達成までの残り日数を数える
-    public function finish(){
-
-                //calKcalと同じ内容
-                // 脂肪1キロ燃やすのに必要な消費カロリー
-                $kcal = 7200 ;
-
-                // SQLからmy_pageの目標体重と初期の体重を取得する
-                $targets = Profile::select('profiles.*')
-                        ->where('user_id','=',\Auth::user()->id )
-                        ->get();
-
-                // 目標体重と初期体重のギャップを計算する
-                foreach($targets as $target)
                 // 差額 = 元の体重 - 目標の体重
                 $sub = $target['weight'] - $target['target'];
                 // 消費するべき合計カロリー = 差額 かける 7200kcal
-                $sub_kcal = $sub * $kcal ;            
-
+                $target_kcal = $sub * $kcal ;
+        
                 //これまでの合計消費カロリー（カロリー収支）を取得
                 $amounts = \DB::table('users')
                         ->join('records', 'records.user_id','=','users.id')
                         ->where('user_id','=',\Auth::user()->id )
+                        ->whereNull('records.deleted_at')
                         ->select('user_id','name')
                         ->selectRaw('SUM(sum) as sum')
                         ->groupBy('user_id')
                         ->get();
 
                 //カロリー収支を計算
-                foreach($amounts as $amount)
+                foreach($amounts as $amount){
 
                 // これまでの消費カロリーの合計
                 $amount_kcal = $amount->sum;
 
                 // 目標までの消費カロリー = 消費するべき合計カロリー - これまでの消費カロリーの合計
-                $balance = $sub_kcal + $amount_kcal ;
+                $balance = $target_kcal + $amount_kcal ;
 
-                $average = \DB::table('users')
+                return($balance) ;
+                }
+            
+            }else{
+                $message = 'プロフィールを登録してください。';
+                return($message);
+            }
+
+        }
+
+       
+    }
+
+    //1kg減量計算をする
+    public function CalKg(){
+
+    // 脂肪1キロ燃やすのに必要な消費カロリー
+    $kcal = 7200 ;
+
+    // SQLからmy_pageの目標体重と初期の体重を取得する
+    $targets = Profile::select('profiles.*')
+                ->where('user_id','=',\Auth::user()->id )
+                ->get();
+
+    $profile = Profile::where('user_id','=',\Auth::id())->exists();
+
+    // 目標体重と初期体重のギャップを計算する
+    foreach($targets as $target){
+        if($profile){
+            // 目標体重と初期体重のギャップを計算する
+            // 差額 = 元の体重 - 目標の体重
+            $sub = $target['weight'] - $target['target'];
+            // 消費するべき合計カロリー = 差額 かける 7200kcal
+            $target_kcal = $sub * $kcal ;
+        
+            //これまでの合計消費カロリー（カロリー収支）を取得
+            $amounts = \DB::table('users')
+                        ->join('records', 'records.user_id','=','users.id')
+                        ->where('user_id','=',\Auth::user()->id )
+                        ->whereNull('records.deleted_at')
+                        ->select('user_id','name')
+                        ->selectRaw('SUM(sum) as sum')
+                        ->groupBy('user_id')
+                        ->get();
+
+            //カロリー収支を計算
+            foreach($amounts as $amount)
+
+            // これまでの消費カロリーの合計
+            $amount_kcal = $amount->sum;
+            
+            // 目標までの消費カロリー = 消費するべき合計カロリー - これまでの消費カロリーの合計
+            $balance = $target_kcal + $amount_kcal ;
+            
+            // 以下の計算で-がつくとややこしいので、符号反転させる。
+            $replace = - $amount_kcal;
+
+
+            // 次の1キロ減量までの消費カロリー        
+            if( $replace < 0 ){
+
+                //合計消費カロリーがプラスの場合（摂取カロリーが上まっている場合）
+                $cal = $kcal - $replace ;
+                    
+            
+            }elseif( $replace < $kcal ){
+
+                    // 合計が7200未満の時
+                    $cal = $kcal - $replace ; 
+
+            }else{
+
+                // 合計が7200以上の時
+                $re_cal = $replace % $kcal;
+
+                $cal = $kcal - $re_cal;
+
+            }
+            // 合計がマイナスの時 $amount < 0
+
+
+            return($cal);
+
+        }else{
+            $message = 'プロフィールを登録してください。';
+            return($message);
+        }
+
+    }
+
+    }
+
+    //目標達成までの残り日数を数える
+    public function finish(){
+
+            //calKcalと同じ内容
+            // 脂肪1キロ燃やすのに必要な消費カロリー
+            $kcal = 7200 ;
+
+            // SQLからmy_pageの目標体重と初期の体重を取得する
+            $targets = Profile::select('profiles.*')
+                    ->where('user_id','=',\Auth::user()->id )
+                    ->get();
+
+            $profile = Profile::where('user_id','=',\Auth::id())->exists();
+
+            // 目標体重と初期体重のギャップを計算する
+            foreach($targets as $target){
+                if($profile){
+                    $sub = $target['weight'] - $target['target'];
+                    $target_kcal = $sub * $kcal ;                
+                
+                    //これまでの合計消費カロリー（カロリー収支）を取得
+                    $amounts = \DB::table('users')
                             ->join('records', 'records.user_id','=','users.id')
-                            ->where('records.user_id','=',\Auth::id() )
+                            ->where('user_id','=',\Auth::user()->id )
+                            ->whereNull('records.deleted_at')
                             ->select('user_id','name')
-                            ->selectRaw('AVG(sum) as sum')
+                            ->selectRaw('SUM(sum) as sum')
                             ->groupBy('user_id')
                             ->get();
 
-                foreach($average as $a){
+                    //カロリー収支を計算
+                    foreach($amounts as $amount)
 
-                    $ave = $a->sum;
+                    // これまでの消費カロリーの合計
+                    $amount_kcal = $amount->sum;
+
+                    // 目標までの消費カロリー = 消費するべき合計カロリー - これまでの消費カロリーの合計
+                    $balance = $target_kcal + $amount_kcal ;
+
+                    $average = \DB::table('users')
+                                ->join('records', 'records.user_id','=','users.id')
+                                ->where('records.user_id','=',\Auth::id() )
+                                ->whereNull('records.deleted_at')
+                                ->select('user_id','name')
+                                ->selectRaw('AVG(sum) as sum')
+                                ->groupBy('user_id')
+                                ->get();
+
+                    foreach($average as $a){
+
+                        $ave = ceil($a->sum);
+                    
+                        //日数の計算
+                        $finish = - $balance / $ave ;
+
+                        return(ceil($finish));
+
+                    }
+
+
+                }else{
+                    $message = 'プロフィールを登録してください。';
+                    return($message);
                 }
 
-                //日数の計算
+        }
 
-                $finish = - $balance / $ave ;
-
-                return(ceil($finish));
-
-
-            //残りの消費するべきカロリー割る平均を
 
 
 

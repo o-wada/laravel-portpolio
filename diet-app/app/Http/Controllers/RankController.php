@@ -58,6 +58,7 @@ class RankController extends Controller
                 ->join('records', 'records.user_id','=','users.id')
                 ->select('user_id','name')
                 ->selectRaw('SUM(sum) as sum')
+                ->whereNull('records.deleted_at')
                 ->groupBy('user_id')
                 ->get();
         
@@ -79,6 +80,7 @@ class RankController extends Controller
                 ->join('records', 'records.user_id','=','users.id')
                 ->select('user_id','name')
                 ->selectRaw('AVG(sum) as sum')
+                ->whereNull('records.deleted_at')
                 ->groupBy('user_id')
                 ->get();
 

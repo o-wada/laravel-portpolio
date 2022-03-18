@@ -59,27 +59,28 @@ class HomeController extends Controller
         $reply = $replies->liked();
 
         // 消費カロリーの見える化
-        $target_kcal = new Profile;
-        $target = $target_kcal->CalKcal();
-
+        $pro = new Profile;
+        $target = $pro->CalKcal();
         // 目標消費カロリーの残高計算
-        $balances = new Profile;
-        $balance = $balances->amount();
-
-        $kal = new Profile;
-        $cal = $kal->CalKg(); 
+        $balance = $pro->amount();
+        $cal = $pro->CalKg(); 
 
         //日数を計算
-        $count_date = User::where('id','=', \Auth::id() )->value('created_at')->diffInDays( Carbon::now() );
+        $count_dates = User::where('id','=', \Auth::id() )->value('created_at')->diffInDays( Carbon::now() );
+        $count_date = $count_dates + 1;        
 
         //平均カロリー収支を計算
-        $average = \DB::table('users')
+        $averages = \DB::table('users')
                     ->join('records', 'records.user_id','=','users.id')
                     ->where('user_id','=',\Auth::id())
+                    ->whereNull('records.deleted_at')
                     ->select('user_id','name')
                     ->selectRaw('AVG(sum) as sum')
                     ->groupBy('user_id')
                     ->get();
+        foreach($averages as $ave){
+        $average = $ave->sum / $count_date;
+        }
 
         $finishes = new Profile;
         $finish   = $finishes->finish();

@@ -39,11 +39,22 @@
                             <p class="px-2">1kg 減量まであと - {{$cal}} kcalです。</p>
                         </div>
                         <div class="card mx-3 my-4">
-                            @foreach($average as $a)
-                            <p class="px-2 pt-3">1日の平均カロリー収支は {{ $a->sum }}kcalです。</p>
-                            @endforeach
+
+                            <!-- 平均 -->
+                            @if($average < 0)
+                            <p class="px-2 pt-3">1日の平均カロリー収支は {{ $average }}kcalです。</p>
+                            @elseif($average >= 0 )
+                            <p class="px-2 pt-3">1日の平均カロリー収支は +{{ $average }}kcalです。</p>
+                            @endif
+
+                            <!-- 目標までのみちのり -->
+                            @if($target <= $balance)
+                            <p>カロリー収支をマイナスにして、目標までの道のりを確認しよう！</p>
+                            @elseif($target > $balance)
                             <p class="px-2 ">目標達成まで</p>
                             <h3 class="px-2 ms-5">あと、{{$finish}} 日！</h3>
+                            <p> <small>(* 1日の平均カロリーをもとに計算しています。) </small> </p>
+                            @endif
                         </div>
                         <div class="card mx-3 my-4">
                             チャート
