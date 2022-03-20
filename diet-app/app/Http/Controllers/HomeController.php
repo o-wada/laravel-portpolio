@@ -78,14 +78,29 @@ class HomeController extends Controller
                     ->selectRaw('AVG(sum) as sum')
                     ->groupBy('user_id')
                     ->get();
-        foreach($averages as $ave)
-        $average = $ave->sum / $count_date;
-        
 
         $finishes = new Profile;
         $finish   = $finishes->finish();
+            
+        $record = Record::where('user_id','=',\Auth::id() )->whereNull('deleted_at')->exists();
+                    
+        if($record){
 
-       return view('index' , compact('records','counts','reply','target','balance','cal','count_date','average','finish'));
+            foreach($averages as $ave){
+            $average = $ave->sum / $count_date;
+            }
+
+            return view('index',compact('records','counts','reply','target','balance','cal','count_date','average','finish'));
+
+        }else{
+             
+            $average = 0;
+
+            return view('index',compact('records','counts','reply','target','balance','cal','count_date','average','finish'));
+
+        }
+
+       return view('index' , compact('records','counts','reply','target','balance','cal','count_date','finish'));
 
     }
 

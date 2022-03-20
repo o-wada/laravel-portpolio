@@ -14,7 +14,7 @@
             <form class="row g-3" action="{{ route('store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <!-- 名前と日付 -->
-                <div class="my-3 bg-warning bg-opacity-10">aaaa
+                <div class="my-3 bg-warning bg-opacity-10">
                     <p class="m-3">  {{ Auth::user()->name }}さん、今日の記録をしましょう。 </p> 
                     <input type="text" class="border-0 text-center bg-warning bg-opacity-10" value="{{ $dt }}" name="date">
                     <input type="hidden" name="profile_id" value="{{ Auth::user()->id }}">

@@ -63,15 +63,29 @@ class MyPageController extends Controller
                 ->groupBy('user_id')
                 ->get();        
         
-        foreach($averages as $ave)
-            $average = $ave->sum / $count_date;
-                        
-        
         $finishes = new Profile;
         $finish   = $finishes->finish();
 
+        $record = Record::where('user_id','=',\Auth::id() )->whereNull('deleted_at')->exists();
+                    
+        if($record){
 
-        return view('my_page', compact('profiles','first','target','balance','cal','count_date','average','finish'));               
+            foreach($averages as $ave){
+            $average = $ave->sum / $count_date;
+            }
+
+            return view('my_page',compact('average','finish','profiles','first','target','balance','cal','count_date'));
+
+        }else{
+             
+            $average = 0;
+
+            return view('my_page',compact('average','finish','profiles','first','target','balance','cal','count_date'));
+
+        }
+
+
+        return view('my_page', compact('profiles','first','target','balance','cal','count_date','finish'));               
     }
 
     public function store(Request $request){
