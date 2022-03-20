@@ -78,22 +78,12 @@ class HomeController extends Controller
                     ->selectRaw('AVG(sum) as sum')
                     ->groupBy('user_id')
                     ->get();
-        foreach($averages as $ave){
+        foreach($averages as $ave)
         $average = $ave->sum / $count_date;
-        }
+        
 
         $finishes = new Profile;
         $finish   = $finishes->finish();
-
-        // $likes = new Record;
-        // $like = $likes->is_liked_by_auth_user();
-    //     $like_records = Record::find($id);
-    //    $like_exists = Like::where('user_id','=',\Auth::id() )
-    //                   ->where('record_id','=', $like_records['id'] )
-    //                   ->get();
-                      
-    //    dd($like_exists);
-
 
        return view('index' , compact('records','counts','reply','target','balance','cal','count_date','average','finish'));
 

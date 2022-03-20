@@ -65,9 +65,11 @@
                                     {{ __(' ログイン ') }}
                                 </button>
 
+                                <button type="submit" class="btn btn-dark opacity-75 mx-3">
 
-                                    <a href="{{ route('login.guest') }}" class="text-dark">ゲストログイン</a>
+                                    <a href="{{ route('login.guest') }}" class="text-white">ゲストログイン</a>
                                     
+                                </button>
 
 
                             </div>

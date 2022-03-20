@@ -63,9 +63,9 @@ class MyPageController extends Controller
                 ->groupBy('user_id')
                 ->get();        
         
-        foreach($averages as $ave){
+        foreach($averages as $ave)
             $average = $ave->sum / $count_date;
-            }            
+                        
         
         $finishes = new Profile;
         $finish   = $finishes->finish();
