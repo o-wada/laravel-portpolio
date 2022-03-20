@@ -23,7 +23,7 @@
 
             <div class="row w-75 mx-auto">
              @endif            
-                   @if((\Route::currentRouteName() === 'index') )
+                   @if((\Route::currentRouteName() === 'index'))
                    <div class="col-md-4">
                         <!-- 経過日数 -->
                         <div class="my-4 card mx-3 text-center">
