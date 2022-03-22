@@ -78,16 +78,34 @@
                                     <div class="bg-warning bg-opacity-10 row pt-3 mx-0 px-0">
 
                                         <div class="col-md my-auto ">
+                                            <div class="row">
 
-                                        @if($record->user_id == \Auth::user()->id) 
-                                            <img src="/images/{{ $record->picture }}" alt="no" width="50px" height="50px" class="rounded rounded-circle float-start">
-                                            <h4> <a href="/my_page" class="px-4">{{ $record->name }}</a>  </h4>
-                                            <p><small class="px-4">{{ $record->updated_at }}</small></p> 
-                                        @else
-                                            <img src="/images/{{ $record->picture }}" alt="no" width="50px" height="50px" class="rounded rounded-circle float-start">
-                                            <h4 > <a href="/user_page/{{ $record->profile_id }}" class="px-4">{{ $record->name }}</a>  </h4>
-                                            <p><small class="px-4">{{ $record->updated_at }}</small></p> 
-                                        @endif
+                                                @if($record->user_id == \Auth::user()->id) 
+                                                    <div class="col-md-2">
+                                                        @if($record->picture == NULL )
+                                                            <i class="fa-solid fa-user fa-3x ms-3"></i>  
+                                                        @else
+                                                            <img src="/images/{{ $record->picture }}" alt="a"  width="75px" height="75px" class="rounded rounded-circle float-start ">
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <h4> <a href="/my_page" class="px-4">{{ $record->name }}</a>  </h4>
+                                                        <p><small class="px-4">{{ $record->updated_at }}</small></p> 
+                                                    </div>
+                                                @else
+                                                    <div class="col-md-2">
+                                                        @if($record->picture == NULL )
+                                                            <i class="fa-solid fa-user fa-3x ms-3"></i>  
+                                                        @else
+                                                            <img src="/images/{{ $record->picture }}" alt="a"  width="75px" height="75px" class="rounded rounded-circle float-start ">
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md">
+                                                        <h4> <a href="/user_page/{{ $record->profile_id }}" class="px-4">{{ $record->name }}</a>  </h4>
+                                                        <p><small class="px-4">{{ $record->updated_at }}</small></p> 
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div>
 
                                         <div class="col-md-1">

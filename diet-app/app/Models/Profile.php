@@ -242,12 +242,20 @@ class Profile extends Model
                     foreach($average as $a){
 
                         $ave = ceil($a->sum);
-                    
+                        
+
+                        if($ave == 0){
+
+                            $finish = 0;
+                            return($finish);
+
+                        }else{
                         //日数の計算
                         $finish = - $balance / $ave ;
 
                         return(ceil($finish));
 
+                        }
                     }
 
 

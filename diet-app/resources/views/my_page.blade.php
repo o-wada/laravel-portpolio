@@ -49,10 +49,18 @@
                 <div class="m-3 w-75 mx-auto ">
                     
                     <div class=" row my-3">
+                        <div class="col-md-3">
                         @foreach($profiles as $profile)
-                        <img src="/images/{{ $profile['picture'] }}" alt="no_image"  class="col-md-3 rounded rounded-circle float-start ">
-                        @endforeach
-                        <h4 class="col-md fw-bold fs-1 ms-5 my-auto"> {{ Auth::user()->name }} </h4> 
+                            @if($profile->picture == NULL )
+                            <i class="fa-solid fa-user fa-3x ms-5"></i>  
+                            @else
+                            <img src="/images/{{ $profile->picture }}" alt="a"  width="100px" height="100px" class="rounded rounded-circle float-start ">
+                            @endif
+                       @endforeach
+                        </div>
+                        <div class="col-md">
+                            <h4 class="col-md fw-bold fs-1 ms-5 my-auto"> {{ Auth::user()->name }} </h4> 
+                        </div>
 
                     </div>
                     @if( $first  >= 1)
@@ -64,7 +72,9 @@
                         <div class="col-md">
                         </div>             
                         <div class="col-md">
-                            <a href="/post">投稿一覧</a>                    
+                            @foreach($profiles as $profile)
+                            <a href="/post/{{ $profile['id'] }}">投稿一覧</a>                    
+                            @endforeach
                         </div>
                     </div>
                     @endif

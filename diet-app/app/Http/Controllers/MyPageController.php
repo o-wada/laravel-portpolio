@@ -207,6 +207,7 @@ class MyPageController extends Controller
         return view('post' , compact('records', 'counts'));
     }
 
+    //user_page
     public function list($id){
 
         $profile = Profile::find($id);

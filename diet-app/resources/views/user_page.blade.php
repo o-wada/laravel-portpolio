@@ -2,15 +2,19 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="card w-75 mx-auto my-2" >
+    <div class="card w-75 mx-auto my-4" >
         <!-- icon uname -->
         <div class="content" >
         @foreach($profiles as $profile)
 
-            <div class="m-3 w-75 mx-auto ">
-                <div class="row ">
+            <div class="m-3 w-75 mx-auto">
+                <div class="row pt-4">
                     <div class="col-md">
+                        @if($profile->picture == NULL )
+                        <i class="fa-solid fa-user fa-3x ms-5"></i>  
+                        @else
                         <img src="/images/{{ $profile->picture }}" alt="a"  width="100px" height="100px" class="rounded rounded-circle float-start ">
+                        @endif
                     </div>
 
                     <div class="col-md my-auto">
