@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth']] , function(){
     //Route::get('/user_page', [MyPageController::class, 'show'])->name('show') ;
     Route::get('/user_page/{id}', [HomeController::class, 'move'])->name('move');
     Route::get('/post' , [MyPageController::class, 'post'] )->name('post');
+    Route::get('/post/{id}' , [MyPageController::class, 'list'] )->name('list');
 
 
     Route::get('/message', [MessageController::class, 'index'] )->name('dm');

@@ -6,14 +6,24 @@
 
     <div class=" mx-auto col-md ">
         <!-- これまでの投稿（recordを表示） -->
-            <!-- 戻るボタン -->
+        @if($profile['user_id'] === \Auth::id() )
+            <!-- 自分のまいーじへ戻るボタン -->
             <div class="w-75 mx-auto my-2">
                 <p> <a href="{{ route('my_page') }}">戻る</a> </p>
             </div>
+            <!-- ユーザーページへ戻るボタン -->
+        @else
+            <div class="w-75 mx-auto my-2">
+                <p> <a href="/user_page/{{ $profile['id'] }}">戻る</a> </p>
+            </div>
+        @endif
+
+            @foreach($name as $n)
+                <h3 class="w-75 mx-auto text-center">{{ $n->name }} さんの投稿一覧 </h3>
+            @endforeach
 
             <!-- 記録項目 -->
         @foreach($records as $record)
-
             <div class="card my-5 w-75 mx-auto">
                 <div class=" row mx-2 my-3 pt-2">
                     <div class="col-md my-2">
@@ -27,7 +37,7 @@
                     <div class="col-md my-2">
                         <p class="border-bottom border-dark ">カロリー収支 ：{{ $record->sum }}</p>
                     </div>
-                    @if( $record->user_id = \Auth::user()->id )
+                    @if( $record->user_id === \Auth::user()->id )
                     <div class="col-md-1 text-center">
                         <a href="/edit/{{ $record->id }}" class="text-decoration-none text-black">
                         <i class="fa fa-bars" aria-hidden="true"></i>

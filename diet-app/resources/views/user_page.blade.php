@@ -44,10 +44,9 @@
 
                     <div class="row mx-3 text-center">
                         <div class="col-md">
-                            <a href="">プロフィール</a>
                         </div>
                         <div class="col-md">
-                            <a href="/post">投稿一覧</a>
+                            <a href="/post/{{ $profile->id }}">投稿一覧</a>
                         </div>
                     </div>
 

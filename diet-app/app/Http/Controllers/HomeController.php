@@ -348,21 +348,13 @@ class HomeController extends Controller
             ->limit(1)
             ->get();
       //   dd($records);
-
-    // $select = \DB::table('users')
-    //            ->join('reqs', 'users.id','=','reqs.user_id')
-    //            ->where('reqs.user_id','=',\Auth::user()->id )
-    // //           ->where('permission_user','=', $profile['user_id'])
-    //            ->get();
-
-        //      dd($profile);
-
-
-
+      
     return view('user_page', compact('profiles','user'));
         
 
     }    
+
+
  
 
 }

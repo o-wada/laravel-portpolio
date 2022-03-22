@@ -207,6 +207,38 @@ class MyPageController extends Controller
         return view('post' , compact('records', 'counts'));
     }
 
+    public function list($id){
+
+        $profile = Profile::find($id);
+
+        $records = \DB::table('users')
+                ->join('records', 'records.user_id','=','users.id')
+                ->join('profiles', 'profiles.user_id','=','users.id')
+                ->select('records.*','users.*','profiles.*','records.id')
+                ->where('records.user_id' ,'=', $profile['id'] )
+                ->whereNull('records.deleted_at')
+                ->orderBy('records.updated_at' ,'DESC')
+                ->get();
+
+        // 投稿に対するリプをカウント
+        $counts = \DB::table('records')
+                ->join('replies', 'replies.host_id','=','records.id')
+                ->whereNull('replies.deleted_at')
+                ->groupBy('replies.host_id')
+                ->get(['replies.host_id',\DB::raw('count(replies.host_id) as reply')]);
+
+        $name = \DB::table('users')
+                ->join('records', 'records.user_id','=','users.id')
+                 ->join('profiles', 'profiles.user_id','=','users.id')
+                 ->where('records.user_id' ,'=', $profile['id'] )
+                 ->whereNull('records.deleted_at')
+                 ->limit(1)
+                 ->get();
+
+        return view('post', compact('records','counts','profile','name') );
+
+    }
+
 
 
 
