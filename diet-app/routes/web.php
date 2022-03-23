@@ -9,6 +9,8 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TomController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\Auth\LoginController;
+
 
 use App\Models\Profile;
 use Facade\FlareClient\Time\Time;
@@ -25,6 +27,7 @@ use Facade\FlareClient\Time\Time;
 */
 
 Route::get('/', function () { return view('welcome'); });
+Route::get('/guest', [LoginController::class, 'guestLogin'])->name('login.guest');
 
 Auth::routes();
 // ログインしていない場合、ログイン画面に戻す
