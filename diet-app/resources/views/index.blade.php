@@ -35,14 +35,14 @@
                             <p class="px-2">減量目標を達成するには、合計{{ $target }} kcalのカロリー消費が必要です。</p>
                         </div>
                         <div class="card mx-3 my-4">
-                            <p class="px-2 pt-3">目標まであと  - {{ $balance }} kcalです。</p>      
+                            <p class="px-2 pt-3  ">目標まであと  - {{ $balance }} kcalです。</p>      
                             <p class="px-2">1kg 減量まであと - {{$cal}} kcalです。</p>
                         </div>
                         <div class="card mx-3 my-4">
 
                             <!-- 平均 -->
                             @if($average < 0)
-                            <p class="px-2 pt-3">1日の平均カロリー収支は {{ $average }}kcalです。</p>
+                            <p class="px-2 pt-3 " >1日の平均カロリー収支は {{ $average }}kcalです。</p>
                             @elseif($average >= 0 )
                             <p class="px-2 pt-3">1日の平均カロリー収支は +{{ $average }}kcalです。</p>
                             @endif
@@ -144,16 +144,17 @@
                                                 <div class="col-md"></div>
                                                 <!-- like 判定がうまくいかない -->
                                                 <div class="col-md-2">
-                                                    <!--              
+
+                                                       <!-- データが入ってれば赤 -->          
                                                             <a href="{{ route('unlike', ['id' => $record->id]) }}" class="btn btn-danger opacity-75 btn-sm" name='post'>
                                                             <i class="fa fa-heart" aria-hidden="true"></i>    
                                                             <span class="badge">済</span></a>
-                                                        
+                                                   
+                                                        <!-- データなければ灰色 -->                                                     
                                                             <a href="{{ route('like', ['id' => $record->id]) }}" class="btn btn-secondary btn-sm"  name='post'>
                                                             <i class="fa fa-heart" aria-hidden="true"></i>
-                                                            <span class="badge">未iij</span></a>
-                                                      -->         
-
+                                                            <span class="badge">未</span></a>
+                                                   
                                                 </div>
 
                                                 <!-- リプライ -->
@@ -299,6 +300,7 @@
         </div>
          @endif
     </div>
+
     
 </div>
 

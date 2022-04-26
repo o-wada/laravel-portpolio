@@ -71,7 +71,7 @@ class MyPageController extends Controller
         if($record){
 
             foreach($averages as $ave){
-            $average = $ave->sum / $count_date;
+            $average = ceil($ave->sum / $count_date);
             }
 
             return view('my_page',compact('average','finish','profiles','first','target','balance','cal','count_date'));

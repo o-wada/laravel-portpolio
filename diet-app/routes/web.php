@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::post('/try/store', [TomController::class,'store'])->name('tom');
     Route::get('/app', function(){ return view('app');} );
 
+    //いいね機能
     Route::get('/reply/like/{id}', [LikeController::class,'like'])->name('like');
     Route::get('/reply/unlike/{id}', [LikeController::class,'unlike'])->name('unlike');
 

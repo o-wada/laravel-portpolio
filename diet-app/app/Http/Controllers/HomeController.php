@@ -87,7 +87,7 @@ class HomeController extends Controller
         if($record){
 
             foreach($averages as $ave){
-            $average = $ave->sum / $count_date;
+            $average = ceil($ave->sum / $count_date);
             }
 
             return view('index',compact('records','counts','reply','target','balance','cal','count_date','average','finish'));
@@ -348,7 +348,7 @@ class HomeController extends Controller
             ->limit(1)
             ->get();
       //   dd($records);
-      
+
     return view('user_page', compact('profiles','user'));
         
 
