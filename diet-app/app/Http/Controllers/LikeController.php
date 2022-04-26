@@ -37,29 +37,29 @@ class LikeController extends Controller
     {
         Like::create([
         'record_id' => $id,
-        'user_id' => \Auth::user()->id,
+        'user_id' => \Auth::id(),
         ]);
 
-        $like_exists = Like::where('user_id','=',\Auth::id() )
-                        ->where('record_id','=', $id )
-                        ->exists();
+        // $like_exists = Like::where('user_id','=',\Auth::id() )
+        //                 ->where('record_id','=', $id )
+        //                 ->exists();
 
 
-        return redirect()->route('index')->with(compact('like_exists'));
+        return redirect()->route('index');
     }
 
     // 引数のIDに紐づくリプライにUNLIKEする
 
     public function unlike($id)
     {
-        $like = Like::where('record_id', $id)->where('user_id', \Auth::user()->id)->first();
+        $like = Like::where('record_id', $id)->where('user_id', \Auth::id())->first();
         $like->delete();
 
-        $like_exists = Like::where('user_id','=',\Auth::id() )
-                      ->where('record_id','=', $id )
-                      ->exists();
+        // $like_exists = Like::where('user_id','=',\Auth::id() )
+        //               ->where('record_id','=', $id )
+        //               ->exists();
 
-        return redirect()->route('index')->with(compact('like_exists'));
+        return redirect()->route('index');
 
     }
 

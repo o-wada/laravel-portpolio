@@ -144,17 +144,18 @@
                                                 <div class="col-md"></div>
                                                 <!-- like 判定がうまくいかない -->
                                                 <div class="col-md-2">
-
-                                                       <!-- データが入ってれば赤 -->          
-                                                            <a href="{{ route('unlike', ['id' => $record->id]) }}" class="btn btn-danger opacity-75 btn-sm" name='post'>
-                                                            <i class="fa fa-heart" aria-hidden="true"></i>    
-                                                            <span class="badge">済</span></a>
-                                                   
-                                                        <!-- データなければ灰色 -->                                                     
-                                                            <a href="{{ route('like', ['id' => $record->id]) }}" class="btn btn-secondary btn-sm"  name='post'>
-                                                            <i class="fa fa-heart" aria-hidden="true"></i>
-                                                            <span class="badge">未</span></a>
-                                                   
+                                                {{$record->id}}
+                                                        @if( $reply )
+                                                        <!-- データが入ってれば赤 -->          
+                                                                <a href="{{ route('unlike', ['id' => $record->id]) }}" class="btn btn-danger opacity-75 btn-sm" name='post'>
+                                                                <i class="fa fa-heart" aria-hidden="true"></i>    
+                                                                <span class="badge"></span></a>
+                                                        @else
+                                                            <!-- データなければ灰色 -->                                                     
+                                                                <a href="{{ route('like', ['id' => $record->id]) }}" class="btn btn-secondary btn-sm"  name='post'>
+                                                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                                                <span class="badge"></span></a>
+                                                        @endif
                                                 </div>
 
                                                 <!-- リプライ -->

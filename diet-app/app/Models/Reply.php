@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Record;
+use App\Models\User;
+use App\Models\Like;
 
 class Reply extends Model
 {
@@ -16,39 +19,26 @@ class Reply extends Model
     }
 
 
+
     public function liked(){
 
-        /**
-  * リプライにLIKEを付いているかの判定
-  *
-  * @return bool true:Likeがついてる false:Likeがついてない
-  */
 
-        $id = \Auth::user()->id;
+        $ids = record::orderBy('updated_at','ASC')->pluck('id');
 
-        $likers = array([
-            'user_id' => $id,
-        ]);
+              //  dd($ids);
 
+        foreach($ids as $id){
 
-        foreach($likers as $like){
+            $like_exists = Like::select('likes.*')->where( [  ['user_id','=',\Auth::id()], [ 'record_id','=', $id ] ])->exists();
 
-            // array_push(追加先の配列,追加する値1,追加する値2,…)
-            array_push($likers, $like['user_id']);
+            //dd($like_exists);    
+
         }
 
-       // dd($likers);
-
-
-        if(in_array($id,$likers)){
-            //in_array ($検索する値 , 第二引数の$likersに$idがあれば、trueなければfalse  )
-
+        if($like_exists){
             return true;
-
         }else{
-
             return false;
-
         }
 
 
