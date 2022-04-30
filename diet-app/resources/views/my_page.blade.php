@@ -38,7 +38,7 @@
                     @endif
                 </div>
                 <div class="card mx-3 my-4">
-                    チャート
+                <canvas id="your_weight_chart" width="300" height="200"></canvas>
                 </div>
             </div>
 

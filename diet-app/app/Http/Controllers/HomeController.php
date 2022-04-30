@@ -37,6 +37,7 @@ class HomeController extends Controller
 
 
     public function index(){
+
         // 投稿の一覧を表示
         $records = \DB::table('users')
                     ->join('records', 'records.user_id','=','users.id')
@@ -55,9 +56,8 @@ class HomeController extends Controller
                     ->groupBy('replies.host_id')
                     ->get(['replies.host_id',\DB::raw('count(replies.host_id) as reply')]);
                                         
-        $replies = new Reply;
-        $reply = $replies->liked();
-
+         $reply = new Reply;
+                
         // 消費カロリーの見える化
         $pro = new Profile;
         $target = $pro->CalKcal();
@@ -90,19 +90,21 @@ class HomeController extends Controller
             $average = ceil($ave->sum / $count_date);
             }
 
-            return view('index',compact('records','counts','reply','target','balance','cal','count_date','average','finish'));
+            return view('index',compact('records','counts','target','balance','cal','count_date','average','finish','reply'));
 
         }else{
              
             $average = 0;
 
-            return view('index',compact('records','counts','reply','target','balance','cal','count_date','average','finish'));
+            return view('index',compact('records','counts','target','balance','cal','count_date','average','finish','reply'));
 
         }
 
-       return view('index' , compact('records','counts','reply','target','balance','cal','count_date','finish'));
+       return view('index' , compact('records','counts','target','balance','cal','count_date','finish','reply'));
 
     }
+
+    
 
     public function record(Request $request){
 

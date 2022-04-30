@@ -22,6 +22,31 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1"></script>
+    <script>
+      window.onload = function () {
+        let context = document.querySelector("#your_weight_chart").getContext('2d')
+        new Chart(context, {
+          type: 'line',
+          data: {
+            labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+            datasets: [{
+              label: "体重の変化",
+              data: [8.0, 9.4, 11.9, 15.4, 21.1, 23.4, 26.4, 28.0, 25.9, 20.5, 14.9, 10.3],
+              borderColor: '#ff6347',
+              backgroundColor: '#ff6347',
+            }],
+
+          },
+          options: {
+            responsive: false,
+          }
+        })
+      }
+    </script>
+    
+
 </head>
 <body>
     <div id="app" class="">

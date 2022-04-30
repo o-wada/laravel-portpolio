@@ -20,29 +20,12 @@ class Reply extends Model
 
 
 
-    public function liked(){
+    public function liked($recordId){
 
+             $like_exists = Like::where( [  ['user_id','=',\Auth::id()], [ 'record_id','=', $recordId ] ])->exists();
 
-        $ids = record::orderBy('updated_at','ASC')->pluck('id');
+         return $like_exists;
 
-              //  dd($ids);
-
-        foreach($ids as $id){
-
-            $like_exists = Like::select('likes.*')->where( [  ['user_id','=',\Auth::id()], [ 'record_id','=', $id ] ])->exists();
-
-            //dd($like_exists);    
-
-        }
-
-        if($like_exists){
-            return true;
-        }else{
-            return false;
-        }
-
-
-
-    }
+    }    
 
 }

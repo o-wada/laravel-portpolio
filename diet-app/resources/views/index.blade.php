@@ -57,7 +57,7 @@
                             @endif
                         </div>
                         <div class="card mx-3 my-4">
-                            チャート
+                        <canvas id="your_weight_chart" width="300" height="200"></canvas>
                         </div>
                    </div>
 
@@ -143,20 +143,24 @@
                                             @if(\Route::currentRouteName() === 'index')
                                                 <div class="col-md"></div>
                                                 <!-- like 判定がうまくいかない -->
+
                                                 <div class="col-md-2">
-                                                {{$record->id}}
-                                                        @if( $reply )
+
+                                                        @if( $reply->liked($record->id) ) 
                                                         <!-- データが入ってれば赤 -->          
                                                                 <a href="{{ route('unlike', ['id' => $record->id]) }}" class="btn btn-danger opacity-75 btn-sm" name='post'>
                                                                 <i class="fa fa-heart" aria-hidden="true"></i>    
                                                                 <span class="badge"></span></a>
+                                                                
                                                         @else
                                                             <!-- データなければ灰色 -->                                                     
                                                                 <a href="{{ route('like', ['id' => $record->id]) }}" class="btn btn-secondary btn-sm"  name='post'>
                                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                                                 <span class="badge"></span></a>
                                                         @endif
+                                                
                                                 </div>
+
 
                                                 <!-- リプライ -->
                                                 <div class="col-md-2 ">
