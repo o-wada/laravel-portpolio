@@ -45,7 +45,7 @@ class SearchController extends Controller
                                  ->where([ ['gender','=',$posts['gender'] ],['way','=',$posts['way'] ],['shape','=',$posts['shape']] ])
                                  ->exists();
                                  
-                     //            dd($posts,$element_exists);
+                             //    dd($posts,$element_exists);
 
         if($element_exists){
 
