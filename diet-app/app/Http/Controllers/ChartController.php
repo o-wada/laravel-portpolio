@@ -17,7 +17,7 @@ class ChartController extends Controller
 
         $date = Record::get();
 
-        dd($date);
+    //    dd($date);
 
         
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Record;
+use Carbon\Carbon;
 
 
 class Profile extends Model
@@ -28,12 +29,11 @@ class Profile extends Model
         // 'user_id' => '\Auth::id()',
 
     ];
+    // 脂肪1キロ燃やすのに必要な消費カロリー
+    public $kcal = 7200 ;
 
     //目標消費カロリーの計算
     public function CalKcal(){
-
-        // 脂肪1キロ燃やすのに必要な消費カロリー
-        $kcal = 7200 ;
 
         // SQLからmy_pageの目標体重と初期の体重を取得する
         $targets = Profile::select('profiles.*')
@@ -46,7 +46,7 @@ class Profile extends Model
         foreach($targets as $target){
             if($profile){
                 $sub = $target['weight'] - $target['target'];
-                $target_kcal = $sub * $kcal ;
+                $target_kcal = $sub * $this->kcal ;
                 return($target_kcal); 
             }else{
                 $message = 'プロフィールを登録してください。';
@@ -59,10 +59,6 @@ class Profile extends Model
 
     //目標消費カロリーの残高計算
     public function amount(){
-
-        //calKcalと同じ内容
-        // 脂肪1キロ燃やすのに必要な消費カロリー
-        $kcal = 7200 ;
 
         // SQLからmy_pageの目標体重と初期の体重を取得する
         $targets = Profile::select('profiles.*')
@@ -78,7 +74,7 @@ class Profile extends Model
                 // 差額 = 元の体重 - 目標の体重
                 $sub = $target['weight'] - $target['target'];
                 // 消費するべき合計カロリー = 差額 かける 7200kcal
-                $target_kcal = $sub * $kcal ;
+                $target_kcal = $sub * $this->kcal ;
         
                 //これまでの合計消費カロリー（カロリー収支）を取得
                 $amounts = \DB::table('users')
@@ -115,9 +111,6 @@ class Profile extends Model
     //1kg減量計算をする
     public function CalKg(){
 
-    // 脂肪1キロ燃やすのに必要な消費カロリー
-    $kcal = 7200 ;
-
     // SQLからmy_pageの目標体重と初期の体重を取得する
     $targets = Profile::select('profiles.*')
                 ->where('user_id','=',\Auth::user()->id )
@@ -132,7 +125,7 @@ class Profile extends Model
             // 差額 = 元の体重 - 目標の体重
             $sub = $target['weight'] - $target['target'];
             // 消費するべき合計カロリー = 差額 かける 7200kcal
-            $target_kcal = $sub * $kcal ;
+            $target_kcal = $sub * $this->kcal ;
         
             //これまでの合計消費カロリー（カロリー収支）を取得
             $amounts = \DB::table('users')
@@ -161,20 +154,20 @@ class Profile extends Model
             if( $replace < 0 ){
 
                 //合計消費カロリーがプラスの場合（摂取カロリーが上まっている場合）
-                $cal = $kcal - $replace ;
+                $cal = $this->kcal - $replace ;
                     
             
-            }elseif( $replace < $kcal ){
+            }elseif( $replace < $this->kcal ){
 
                     // 合計が7200未満の時
-                    $cal = $kcal - $replace ; 
+                    $cal = $this->kcal - $replace ; 
 
             }else{
 
                 // 合計が7200以上の時
-                $re_cal = $replace % $kcal;
+                $re_cal = $replace % $this->kcal;
 
-                $cal = $kcal - $re_cal;
+                $cal = $this->kcal - $re_cal;
 
             }
             // 合計がマイナスの時 $amount < 0
@@ -195,9 +188,6 @@ class Profile extends Model
     public function finish(){
 
             //calKcalと同じ内容
-            // 脂肪1キロ燃やすのに必要な消費カロリー
-            $kcal = 7200 ;
-
             // SQLからmy_pageの目標体重と初期の体重を取得する
             $targets = Profile::select('profiles.*')
                     ->where('user_id','=',\Auth::user()->id )
@@ -209,7 +199,7 @@ class Profile extends Model
             foreach($targets as $target){
                 if($profile){
                     $sub = $target['weight'] - $target['target'];
-                    $target_kcal = $sub * $kcal ;                
+                    $target_kcal = $sub * $this->kcal ;                
                 
                     //これまでの合計消費カロリー（カロリー収支）を取得
                     $amounts = \DB::table('users')
@@ -221,58 +211,43 @@ class Profile extends Model
                             ->groupBy('user_id')
                             ->get();
 
+                    $averages = \DB::table('users')
+                            ->join('records', 'records.user_id','=','users.id')
+                            ->where('user_id','=',\Auth::id())
+                            ->whereNull('records.deleted_at')
+                            ->select('user_id','name')
+                            ->selectRaw('AVG(sum) as sum')
+                            ->groupBy('user_id')
+                            ->get();
+        
+
+                    $count_date = User::where('id','=', \Auth::id() )->value('created_at')->diffInDays( Carbon::now() );
+                    $count_dates = $count_date + 1 ;
+
                     //カロリー収支を計算
-                    foreach($amounts as $amount)
+                    foreach($amounts as $amount){
 
                     // これまでの消費カロリーの合計
                     $amount_kcal = $amount->sum;
 
                     // 目標までの消費カロリー = 消費するべき合計カロリー - これまでの消費カロリーの合計
                     $balance = $target_kcal + $amount_kcal ;
-
-                    $average = \DB::table('users')
-                                ->join('records', 'records.user_id','=','users.id')
-                                ->where('records.user_id','=',\Auth::id() )
-                                ->whereNull('records.deleted_at')
-                                ->select('user_id','name')
-                                ->selectRaw('AVG(sum) as sum')
-                                ->groupBy('user_id')
-                                ->get();
-
-                    foreach($average as $a){
-
-                        $ave = ceil($a->sum);
-                        
-
-                        if($ave == 0){
-
-                            $finish = 0;
-                            return($finish);
-
-                        }else{
-                        //日数の計算
+                    
+                    foreach($averages as $a){
+                     
+                        $ave = ($a->sum/$count_dates);
                         $finish = - $balance / $ave ;
 
                         return(ceil($finish));
 
-                        }
                     }
 
-
-                }else{
-                    $message = 'プロフィールを登録してください。';
-                    return($message);
+                    
                 }
 
+
+
+            }
         }
-
-
-
-
     }
-
-
-
-    
-
 }
