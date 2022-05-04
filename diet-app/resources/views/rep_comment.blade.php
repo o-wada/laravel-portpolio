@@ -4,7 +4,7 @@
 
 <div class="container-fluid row w-75 mx-auto">
 
-    <div class="mx-auto col-md ">
+    <div class="mx-auto col-md mb-5">
 
         <!-- 一番最初の投稿を表示 -->
         @foreach($records as $record)
@@ -19,7 +19,11 @@
                 <div class="bg-warning bg-opacity-10 row pt-3 mx-0 px-0">
 
                     <div class="icon col-md-2">
-                        <img src="/images/{{ $record->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
+                        @if($record->picture == NULL )
+                            <i class="fa-solid fa-user fa-3x ms-3"></i>  
+                        @else
+                            <img src="/images/{{ $record->picture }}" alt="a"  width="75px" height="75px" class="rounded rounded-circle float-start ">
+                        @endif
                     </div>
 
                     <div class="col-md">
@@ -54,18 +58,6 @@
 
                 </div>
 
-                <!-- Likeボタンとリプライボタン /id -->
-                <div class="bg-warning bg-opacity-10 ">
-                    <div class="p-3 mx-5 row">
-                        <div class="col-md"></div>
-                        <div class="col-md-3">
-                            <a href="" class="text-decoration-none">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div> 
-                </div>
-
             </div>
         @endforeach
           
@@ -76,13 +68,18 @@
             <div class="border ">
 
                 <div class="bg-primary bg-opacity-10 row pt-3 mx-0 px-0">
-                    <div class="icon col-md">
+                    <div class="icon col-md-2">
+                            @if($record->picture == NULL )
+                                <i class="fa-solid fa-user fa-3x ms-3"></i>  
+                            @else
+                                <img src="/images/{{ $record->picture }}" alt="a"  width="75px" height="75px" class="rounded rounded-circle float-start ">
+                            @endif
+                    </div>
+                    <div class="col-md">
                         @if($rep->user_id == \Auth::user()->id) 
-                            <img src="/images/{{ $rep->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
                             <h4> <a href="/my_page" class="px-4">{{ $rep->name }}</a>  </h4>
                             <p><small class="px-4">{{ $rep->updated_at }}</small></p> 
                         @else
-                            <img src="/images/{{ $rep->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
                             <h4 > <a href="/user_page/{{ $rep->profile_id }}" class="px-4">{{ $rep->name }}</a>  </h4>
                             <p><small class="px-4">{{ $record->updated_at }}</small></p> 
                         @endif
@@ -92,19 +89,6 @@
                 <div class="my-5">
                     <p class="border-bottom border-dark mx-3">{{ $rep->comment }}</p>
             
-                </div>
-
-                <div class="bg-primary bg-opacity-10 mx-0 pb-3 row">
-                        <div class="col-md"></div>
-                        <div class="col-md"></div>
-                        <div class="pt-3 mx-3 col-md">
-                            <a href="" class="mx-2 text-decoration-none px-3 ">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                            </a>
-                            @if(!(\Route::currentRouteName() === 'rep_comment'))
-                            <a href="/rep_comment/{{ $rep->id }}" class="m-2 text-decoration-none">コメント</a>
-                            @endif
-                        </div> 
                 </div>
 
             </div>
@@ -117,13 +101,19 @@
             <div class="border">
 
                 <div class="bg-info bg-opacity-10 row pt-3 mx-0 px-0">
-                    <div class="icon col-md">
+                    <div class="col-md-2">
+                            @if($record->picture == NULL )
+                                <i class="fa-solid fa-user fa-3x ms-3"></i>  
+                            @else
+                                <img src="/images/{{ $record->picture }}" alt="a"  width="75px" height="75px" class="rounded rounded-circle float-start ">
+                            @endif
+                    </div>
+
+                    <div class="col-md">
                         @if($comment->user_id == \Auth::user()->id) 
-                            <img src="/images/{{ $comment->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
                             <h4> <a href="/my_page" class="px-4">{{ $comment->name }}</a>  </h4>
                             <p><small class="px-4">{{ $comment->updated_at }}</small></p> 
                         @else
-                            <img src="/images/{{ $comment->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
                             <h4 > <a href="/user_page/{{ $comment->user_id }}" class="px-4">{{ $comment->name }}</a>  </h4>
                             <p><small class="px-4">{{ $comment->updated_at }}</small></p> 
                         @endif
@@ -146,16 +136,6 @@
                 <div class="my-5">
                     <p class="border-bottom border-dark mx-3">{{ $comment->comment }}</p>
 
-                </div>
-
-                <div class="bg-info bg-opacity-10 py-2 mx-0 row">
-                        <div class="col-md"></div>
-                        <div class="col-md"></div>
-                        <div class="pt-1 mx-3 col-md ">
-                            <a href="" class="mx-2 text-decoration-none px-3 ">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                            </a>
-                        </div> 
                 </div>
 
             </div>

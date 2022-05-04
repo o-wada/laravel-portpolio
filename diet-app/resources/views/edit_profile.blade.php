@@ -3,19 +3,16 @@
 @section('content')
 
 <div class="container-fluid">
-    <div class="card w-75 mx-auto " >
+    <div class="card w-75 mx-auto my-2" >
     @foreach($profiles as $profile)
         <!-- icon uname -->
         <div class="content">
         <form action="{{ route('u_profile') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="profile_id" value="{{ $edit_profile['id'] }}">   
-            <div class="icon m-3 p-3 overflow-auto" >
-                <input type="file" class="mt-5 float-md-end form-control-file border-0 bg-white" name="picture" >
-                <img src="" alt="" class="rounded rounded-circle float-start p-5 border">
-            </div>
-            <div class="uname m-3 w-25"> 
-                <h4 class="text-center pt-2"> {{ Auth::user()->name }} </h4> 
+            <div class="row my-5" >
+                <h4 class="text-center col-md"> {{ Auth::user()->name }} </h4> 
+                <input type="file" class="col-md " name="picture" >
             </div> 
             <div class="inform m-3 ">
                     <div class="inform-items my-3 p-3">
@@ -26,7 +23,7 @@
                             </div>
                             <label for="way" class="mb-3">ダイエット方針 :</label>
                             <select name="way" class="form-control mb-1" required >
-                                <option value="0">選択してください</option>
+                                <option value={{ $profile['way'] }}>{{$profile['way']}}</option>
                                 <option value="糖質制限">糖質制限</option>
                                 <option value="脂質制限">脂質制限</option>
                                 <option value="ボディメイク">ボディメイク</option>
@@ -46,7 +43,7 @@
                             <div class="col-md-12 mb-3 d-flex">
                                 <label for="gender" class="form-label w-25 pt-2">性別:</label>
                                 <select name="gender" id="" class="form-control w-50" required>
-                                    <option value="0">選択してください</option>
+                                    <option value={{$profile['gender']}}>{{$profile['gender']}}</option>
                                     <option value="男性">男性</option>
                                     <option value="女性">女性</option>
                                     <option value="その他">その他</option>
@@ -63,11 +60,9 @@
                             <div class="col-md-12 mb-3 d-flex">
                                 <label for="shape" class="form-label w-25 pt-2">骨格:</label>
                                 <select name="shape"  class="form-control w-50" required>
-                                    <option value="0">選択してください</option>
+                                    <option value={{$profile['shape']}}>{{$profile['gender']}}</option>
                                     <option value="細身">細身</option>
-                                    <option value="やや細身">やや細身</option>
                                     <option value="普通">普通</option>
-                                    <option value="やや太め">やや太め</option>
                                     <option value="太め">太め</option>
                                     <option value="ガッチリ">ガッチリ</option>
                                     <option value="その他">その他</option>

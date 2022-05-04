@@ -142,8 +142,6 @@
                                         <div class="m-3 row">
                                             @if(\Route::currentRouteName() === 'index')
                                                 <div class="col-md"></div>
-                                                <!-- like 判定がうまくいかない -->
-
                                                 <div class="col-md-2">
 
                                                         @if( $reply->liked($record->id) ) 
@@ -160,8 +158,6 @@
                                                         @endif
                                                 
                                                 </div>
-
-
                                                 <!-- リプライ -->
                                                 <div class="col-md-2 ">
                                                     <a href="/index/{{ $record->id }}" class="btn btn-dark btn-sm text-decoration-none">
@@ -188,7 +184,11 @@
 
                                                 <div class="bg-primary bg-opacity-10 row pt-3 mx-0 px-0">
                                                     <div class="icon col-md-2">
-                                                        <img src="/images/{{ $rep->picture }}" alt="no_image" width="50px" height="50px" class="rounded rounded-circle float-start">
+                                                        @if($record->picture == NULL )
+                                                            <i class="fa-solid fa-user fa-3x ms-3"></i>  
+                                                        @else
+                                                            <img src="/images/{{ $rep->picture }}" alt="a"  width="75px" height="75px" class="rounded rounded-circle float-start ">
+                                                        @endif
                                                     </div>
                                                     <div class="col-md">
                                                         <!-- 自分の場合はマイページ 他人の場合はユーザーページにとぶ -->
@@ -222,12 +222,9 @@
                                                 <div class="bg-primary bg-opacity-10 mx-0 pb-3 row">
                                                         <div class="col-md"></div>
                                                         <div class="col-md"></div>
-                                                        <div class="pt-3 mx-3 col-md ">
-                                                            <a href="" class="mx-2 text-decoration-none px-3 ">
-                                                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                                            </a>
-                                                            <a href="/rep_comment/{{ $rep->id }}" class="m-2 text-decoration-none">
-                                                                <i class="fa fa-comment" aria-hidden="true"></i>
+                                                        <div class="pt-3 mx-3 col-md-2 ">
+                                                            <a href="/rep_comment/{{ $rep->id }}" class="btn btn-dark btn-sm text-decoration-none">
+                                                            <i class="fa fa-comment" aria-hidden="true"></i>
                                                                 @foreach($counts as $count)
 
                                                                 @if($count->reply_id == $rep->id)
