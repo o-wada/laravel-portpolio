@@ -43,7 +43,7 @@ class HomeController extends Controller
         $records = \DB::table('users')
                     ->join('records', 'records.user_id','=','users.id')
                     ->join('profiles', 'profiles.user_id','=','users.id')
-                    ->select('records.*','users.*','profiles.*','records.id','records.updated_at')
+                    ->select('records.*','users.*','profiles.*','records.id','records.updated_at','records.weight')
                     ->whereNull('records.deleted_at')
                     ->orderBy('records.updated_at','DESC')
                     ->get();
