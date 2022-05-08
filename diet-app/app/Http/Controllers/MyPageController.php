@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\Record;
 use App\Models\User;
+use App\Models\Chart;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
@@ -66,6 +67,11 @@ class MyPageController extends Controller
         $finishes = new Profile;
         $finish   = $finishes->finish();
 
+        $shaft = new Chart;
+        $record_day = $shaft->r_day();
+        $record_weight = $shaft->r_weight();
+
+
         $record = Record::where('user_id','=',\Auth::id() )->whereNull('deleted_at')->exists();
                     
         if($record){
@@ -74,18 +80,18 @@ class MyPageController extends Controller
             $average = ceil($ave->sum / $count_date);
             }
 
-            return view('my_page',compact('average','finish','profiles','first','target','balance','cal','count_date'));
+            return view('my_page',compact('average','finish','profiles','first','target','balance','cal','count_date','record_day','record_weight'));
 
         }else{
              
             $average = 0;
 
-            return view('my_page',compact('average','finish','profiles','first','target','balance','cal','count_date'));
+            return view('my_page',compact('average','finish','profiles','first','target','balance','cal','count_date','record_day','record_weight'));
 
         }
 
 
-        return view('my_page', compact('profiles','first','target','balance','cal','count_date','finish'));               
+        return view('my_page', compact('profiles','first','target','balance','cal','count_date','finish','record_day','record_weight'));               
     }
 
     public function store(Request $request){
