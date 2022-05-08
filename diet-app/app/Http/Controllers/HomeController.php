@@ -9,6 +9,7 @@ use App\Models\Reply;
 use App\Models\User;
 use App\Models\Req;
 use App\Models\Like;
+use App\Models\Chart;
 use App\Models\Comment;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
@@ -55,6 +56,14 @@ class HomeController extends Controller
                     ->whereNull('replies.deleted_at')
                     ->groupBy('replies.host_id')
                     ->get(['replies.host_id',\DB::raw('count(replies.host_id) as reply')]);
+
+        $shaft = new Chart;
+        $record_day = $shaft->r_day();
+        $record_weight = $shaft->r_weight();
+
+      //  dd(gettype($record_day));
+
+     //   dd($record_weight);
                                         
          $reply = new Reply;
                 
@@ -67,7 +76,7 @@ class HomeController extends Controller
 
         //日数を計算
         $count_dates = User::where('id','=', \Auth::id() )->value('created_at')->diffInDays( Carbon::now() );
-        $count_date = $count_dates + 1;        
+        $count_date = $count_dates + 1;    
 
         //平均カロリー収支を計算
         $averages = \DB::table('users')
@@ -90,17 +99,17 @@ class HomeController extends Controller
             $average = ceil($ave->sum / $count_date);
             }
 
-            return view('index',compact('records','counts','target','balance','cal','count_date','average','finish','reply'));
+            return view('index',compact('records','counts','target','balance','cal','count_date','average','finish','reply','record_day','record_weight'));
 
         }else{
              
             $average = 0;
 
-            return view('index',compact('records','counts','target','balance','cal','count_date','average','finish','reply'));
+            return view('index',compact('records','counts','target','balance','cal','count_date','average','finish','reply','record_day','record_weight'));
 
         }
 
-       return view('index' , compact('records','counts','target','balance','cal','count_date','finish','reply'));
+       return view('index' , compact('records','counts','target','balance','cal','count_date','finish','reply','record_day','record_weight'));
 
     }
 

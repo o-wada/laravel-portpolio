@@ -1,9 +1,31 @@
 @extends('layouts.app')
+<script>
+     var day = <?php echo json_encode($record_day); ?>;
+     var weight = <?php echo json_encode($record_weight); ?>;
+      window.onload = function () {
+        let context = document.querySelector("#your_weight_chart").getContext('2d')
+        new Chart(context, {
+          type: 'line',
+          data: {
+              
+            labels: day,
+            datasets: [{
+              label: "体重の変化",
+              data: weight,
+              borderColor: '#ff6347',
+              backgroundColor: '#ff6347',
+            }],
 
+          },
+          options: {
+            responsive: false,
+          }
+        })
+      }
+    </script>
 @section('content')
 
 <div class="container-fluid ">
-
     <div class="mx-auto ">
 
          @if((\Route::currentRouteName() === 'index') )
@@ -57,7 +79,7 @@
                             @endif
                         </div>
                         <div class="card mx-3 my-4">
-                        <canvas id="your_weight_chart" width="300" height="200"></canvas>
+                        <canvas id="your_weight_chart" ></canvas>
                         </div>
                    </div>
 
