@@ -60,7 +60,7 @@
                             <div class="col-md-12 mb-3 d-flex">
                                 <label for="shape" class="form-label w-25 pt-2">骨格:</label>
                                 <select name="shape"  class="form-control w-50" required>
-                                    <option value={{$profile['shape']}}>{{$profile['gender']}}</option>
+                                    <option value={{$profile['shape']}}>{{$profile['shape']}}</option>
                                     <option value="細身">細身</option>
                                     <option value="普通">普通</option>
                                     <option value="太め">太め</option>

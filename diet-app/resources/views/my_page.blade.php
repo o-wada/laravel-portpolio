@@ -40,7 +40,7 @@
                     <p class="px-2">減量目標を達成するには、合計{{ $target }} kcalのカロリー消費が必要です。</p>
                 </div>
                 <div class="card mx-3 my-4">
-                    <p class="px-2 pt-3">目標まであと  - {{ $balance }} kcalです。</p>      
+                    <p class="px-2 pt-3">目標まであと  - {{ $balance }} kcalです。</p>     
                     <p class="px-2">1kg 減量まであと - {{$cal}} kcalです。</p>
                 </div>
                 <div class="card mx-3 my-4">

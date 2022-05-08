@@ -3,17 +3,15 @@
 @section('content')
 
 <div class="container-fluid">
-    <div class="card w-75 mx-auto " >
+    <div class="card w-75 mx-auto my-3" >
         <!-- icon uname -->
-        <div class="content">
+        <div class="content ">
         <form action="{{ route('s_profile') }}" method="post" enctype="multipart/form-data">
                 @csrf
-            <div class="icon m-3 p-3 overflow-auto" >
-                <input type="file" class="mt-5 float-md-end form-control-file border-0 bg-white" name="picture">
-                <img src="" alt="" class="rounded rounded-circle float-start p-5 border">
-            </div>
-            <div class="uname m-3 w-25"> 
-                <h4 class="text-center pt-2"> {{ Auth::user()->name }} </h4> 
+            <div class="uname m-3 row"> 
+                <h4 class="text-center mt-5 col-md"> {{ Auth::user()->name }} </h4> 
+                <input type="file" class="mt-5 col-md" name="picture">
+
             </div> 
             <div class="inform m-3 ">
                     <div class="inform-items my-3 p-3">
@@ -63,9 +61,7 @@
                                 <select name="shape"  class="form-control w-50" required>
                                     <option value="0">選択してください</option>
                                     <option value="細身">細身</option>
-                                    <option value="やや細身">やや細身</option>
                                     <option value="普通">普通</option>
-                                    <option value="やや太め">やや太め</option>
                                     <option value="太め">太め</option>
                                     <option value="ガッチリ">ガッチリ</option>
                                     <option value="その他">その他</option>
